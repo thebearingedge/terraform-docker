@@ -1,7 +1,14 @@
 services:
 
+  docker:
+    image: docker.io/library/docker:26.0.2
+    privileged: true
+
   terraform:
     image: docker.io/hashicorp/terraform:1.8
     volumes:
       - ./infrastructure:/var/infrastructure
     working_dir: /var/infrastructure
+    depends_on:
+      docker:
+        condition: service_started

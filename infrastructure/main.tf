@@ -6,3 +6,11 @@ terraform {
     }
   }
 }
+
+provider "docker" {
+  host = "http://docker:2375"
+}
+
+data "docker_image" "ubuntu" {
+  name = "ubuntu:24.04"
+}

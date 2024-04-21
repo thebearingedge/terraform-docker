@@ -1,3 +1,3 @@
 
-init:
-  docker compose run --rm terraform init
+terraform *args:
+  docker compose run --rm terraform {{args}}
