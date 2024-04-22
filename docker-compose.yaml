@@ -5,6 +5,11 @@ services:
     environment:
       DOCKER_TLS_CERTDIR: ""
     privileged: true
+    healthcheck:
+      test: /usr/bin/nc -z localhost 2375
+      interval: 2s
+      start_period: 2s
+      retries: 10
 
   terraform:
     image: docker.io/hashicorp/terraform:1.8
@@ -13,7 +18,7 @@ services:
     working_dir: /var/infrastructure
     depends_on:
       docker:
-        condition: service_started
+        condition: service_healthy
 
 networks:
   default:
