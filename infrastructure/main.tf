@@ -8,9 +8,16 @@ terraform {
 }
 
 provider "docker" {
-  host = "http://docker:2375"
+  host = "tcp://docker:2375/"
 }
 
-data "docker_image" "ubuntu" {
-  name = "ubuntu:24.04"
+data "docker_registry_image" "ubuntu" {
+  name = "registry-1.docker.io/library/ubuntu:24.04"
+}
+
+resource "docker_image" "ubuntu" {
+  name = data.docker_registry_image.ubuntu.name
+  pull_triggers = [
+    data.docker_registry_image.ubuntu.sha256_digest
+  ]
 }
